@@ -1,23 +1,22 @@
-# Memory and Pointers #
+# Memory and Pointers
 
-Understanding pointers and the ins and outs of memory usage in your program is a fundamental part of what makes you a strong C programmer! This note breaks down important elements that go into this understanding.   
+Understanding pointers and the ins and outs of memory usage in your program is a fundamental part of what makes you a strong C programmer! This note breaks down important elements that go into this understanding.
 
+## Memory
 
-## Memory ##
-
-### Address Space ###
+### Address Space
 
 Every process, i.e a running program, gets 512G of virtual memory space. The memory layout is given in the diagram below.
 
 ![hi](./MemoryLayout.png "Memory Layout Diagram")
 
-The stack grows downward starting from 512G while the program code, static variables, and heap variables are all at the bottom (0), sitting in that order (Check the diagram above). This means that when functions are called, space for them is built up on the stack and then cleared as they complete. Imagine function calls being stacked on top of each other (but upside down) and then being popped off last to first as they return. The stack is a *temporary* storage space. Check out [this](./stack-diagram.jpg) diagram to build intuition on how the stack changes throughout your program. 
+The stack grows downward starting from 512G while the program code, static variables, and heap variables are all at the bottom (0), sitting in that order (Check the diagram above). This means that when functions are called, space for them is built up on the stack and then cleared as they complete. Imagine function calls being stacked on top of each other (but upside down) and then being popped off last to first as they return. The stack is a _temporary_ storage space. Check out [this](./stack-diagram.jpg) diagram to build intuition on how the stack changes throughout your program.
 
-The heap is where you dynamically allocate memory - it is a storage space that is not automatically managed like the stack. You use the heap if you want to manage how long something is stored in memory, which means you are responsible for clearing any space you allocate on the heap. You also use the heap if what you’re storing is considerably large. This is because there is an OS dependent limit on how much data can be stored in the stack, so the heap is a good choice if you don’t want your storage needs to saturate your stack. Also note that unlike the stack, the heap grows upwards (towards the stack). 
+The heap is where you dynamically allocate memory - it is a storage space that is not automatically managed like the stack. You use the heap if you want to manage how long something is stored in memory, which means you are responsible for clearing any space you allocate on the heap. You also use the heap if what you’re storing is considerably large. This is because there is an OS dependent limit on how much data can be stored in the stack, so the heap is a good choice if you don’t want your storage needs to saturate your stack. Also note that unlike the stack, the heap grows upwards (towards the stack).
 
-### Variables ###
+### Variables
 
-#### Stack Variables ####
+#### Stack Variables
 
 When you declare a variable in C, it is defined for the current scope and will be released (removed from memory) at the end of the scope. If you re-declare a variable inside a scope within a ‘nested’ scope (see below), you won't be able to change the outer variable.
 
@@ -33,12 +32,12 @@ x = 0;
 //x is still 0 out here
 ```
 
-The variables inside the curly braces are **stack variables** (also known as 
+The variables inside the curly braces are **stack variables** (also known as
 automatic variables), and are stored on the stack. Their scope is local to a block (meaning code enclosed by curly braces, as shown above). They are created (pushed on the stack) when entering the block and destroyed (popped off the stack) upon exit.
 
-#### Static and Global Variables ####
+#### Static and Global Variables
 
-Static and Global variables are stored in the static section of the C memory layout (see diagram above). 'static' has different meanings depending on where you declare your value. In general, **global** and **static** variables are created when the program runs, and they persist until the program ends. *They have the lifetime of the program*. They cannot be re-declared or re-initialized.
+Static and Global variables are stored in the static section of the C memory layout (see diagram above). 'static' has different meanings depending on where you declare your value. In general, **global** and **static** variables are created when the program runs, and they persist until the program ends. _They have the lifetime of the program_. They cannot be re-declared or re-initialized.
 
 ```c
 static int file_static = 0; // static global variable
@@ -48,7 +47,7 @@ int foo(int auto_1) {
 }
 ```
 
-A **static global variable** is declared by using the ‘static’ keyword on a variable declaration outside of any code blocks in the file, i.e outside of any function. Its scope is limited to the current file. It’s accessible anywhere in the file it is declared in, but not in any other file. 
+A **static global variable** is declared by using the ‘static’ keyword on a variable declaration outside of any code blocks in the file, i.e outside of any function. Its scope is limited to the current file. It’s accessible anywhere in the file it is declared in, but not in any other file.
 
 A **static variable** is declared by using the ‘static’ keyword on a variable declaration inside a function. It is initialized once and retains its value over successive calls of that function, as shown here ([source](http://stackoverflow.com/a/23777789)):
 
@@ -91,7 +90,7 @@ void magic_print() {
 }
 ```
 
-## Pointers ##
+## Pointers
 
 Pointers are what will get you a job. Understanding pointers is crucial and
 using them naturally will make you stand out as a programmer. Let's start with
@@ -113,16 +112,16 @@ int x = 5; // x is a plain int
 int *p; // p is a pointer-to-int
 ```
 
-Spacing of asterisk doesn't matter, but `*p` is generally preferable as it 
-makes declarations clearer.  `int* p1, p2;` would lead you to assume that both 
-p1 and p2 are being declared as type int* (a pointer to an integer), but in 
-reality the compiler interprets this statement as if it was written 
-`int *p1; int p2;` - declaring p1 as a pointer to int and p2 as a normal int.
-Writing the declaration as `int *p1, p2` will avoid confusion in such cases.
+Spacing of asterisk doesn't matter, but `*p` is generally preferable as it
+makes declarations clearer. `int* p1, p2;` would lead you to assume that both
+p1 and p2 are being declared as type int* (a pointer to an integer), but in
+reality the compiler interprets this statement as if it was written
+`int *p1; int p2;`- declaring p1 as a pointer to int and p2 as a normal int.
+Writing the declaration as`int \*p1, p2` will avoid confusion in such cases.
 
-### Using basic pointers ###
+### Using basic pointers
 
-There are two basic operators that you use with pointers: 
+There are two basic operators that you use with pointers:
 
 The `&` operator references a value, ie it gets the memory address of an
 already existing variable. It could then be stored into a pointer.
@@ -133,12 +132,12 @@ int *p; // p is a pointer-to-int
 p = &x; // p now points to x
 ```
 
-The `*` operator *dereferences* a pointer: it follows the pointer and gets the
+The `*` operator _dereferences_ a pointer: it follows the pointer and gets the
 thing it points to.
 
 ```c
 int x = 5;
-int *p = &x; 
+int *p = &x;
 printf("%d", *p); //prints out 5
 *p = 9;  // now x is 9
 ```
@@ -147,13 +146,13 @@ printf("%d", *p); //prints out 5
 further from the underlying value, while `*` removes a level, brining you
 closer. So `*&x` is the same as `x`, as is `*&*&x`.
 
-There are limits though. Why do you think `&&x` is not valid? (*Spoiler:* because
-`&x` is just a transient *value* of type `int *`, it's not a variable in memory,
+There are limits though. Why do you think `&&x` is not valid? (_Spoiler:_ because
+`&x` is just a transient _value_ of type `int *`, it's not a variable in memory,
 so you cannot get its memory address with the `&` operator).
 
-### Ok, so why use pointers? ###
+### Ok, so why use pointers?
 
-C is a **call-by-value** language which means all arguments to functions are 
+C is a **call-by-value** language which means all arguments to functions are
 copied, and a local copy is made on that function's stack. Changes made inside the
 function are not reflected on the outside. Therefore if you want a function to
 modify a value that you have, you'll have to tell the function where to find the
@@ -181,14 +180,13 @@ Note not only the difference in the function, but how the parameters are passed.
 
 For more pointer examples, see `E-Memory-Pointers/code/basicpointers.c`.
 
+---
 
----- 
+## Arrays
 
-## Arrays ## 
+As per the C99 Standard:
 
-As per the C99 Standard: 
-
->An array type describes a contiguously allocated nonempty set of objects with a particular member object type, called the element type. Array types are characterized by their element type and by the number of elements in the array.
+> An array type describes a contiguously allocated nonempty set of objects with a particular member object type, called the element type. Array types are characterized by their element type and by the number of elements in the array.
 
 What exactly does that mean? Let's look at an example declaration and try to figure out.
 
@@ -232,12 +230,12 @@ printf("%d", sizeof(a)); // This will print "40"
 
 The `sizeof()` operator returns the number of bytes occupied by the array. In this case, `a` is an array of 10 `int` elements. The `sizeof(int)` is 4, therefore the `sizeof(a)` = 40.
 
-## Pointer Arithmetic ##   
+## Pointer Arithmetic
 
 If you have a pointer, you can do basic arithmetic with it to address adjacent
 elements. All arithmetic is with respect to the type of element being addressed,
 so if you have an int pointer `int *p`, `p+1` points to the next int, which is 4
-bytes later. *Think in terms of elements, not in terms of bytes.*
+bytes later. _Think in terms of elements, not in terms of bytes._
 
 ```c
 int *p = q; //p is a pointer to int; it's pointing to the same place as q, exactly where doesn't matter now
@@ -247,29 +245,26 @@ p+1; //this is a pointer-to-int that's point to an integer that immediately foll
      //the above is VERY common when looping over arrays in C
 ```
 
-
-## Arrays and Pointers ## 
+## Arrays and Pointers
 
 You may have heard that "arrays are pointers." While this is not true, arrays and pointers behave very similarly and it is important to know the differences!
 
 **Jae's Grand Unified Theory of Pointers** </br>
 Also known as Jae's GUT
 
-> Given pointer `p` of type `T*` and integer `i` </br>
-> `*(p+i) == p[i]`
+> Given pointer `p` of type `T*` and integer `i` </br> > `*(p+i) == p[i]`
 
 What does this mean? And how does it unify anything? Let's break it down. </br>
 
 Given any pointer `p` of type `T*`, we can use pointer arithmetic to get the address of the next element with `p+1`. This address is `sizeof(T)` bytes after `p`. If this doesn't make sense, review the pointer arithmetic section above! </br>
 
-We can understand `p+i` in the same way as above. The address returned by the expression is `sizeof(T)` * `i` bytes after `p`, or the address of the `i`th element of type `T` after `p`. E.g. `i=3`, and `T` is a `char`, then `p+i` returns a `char *` that holds the address three characters after `p`. 
+We can understand `p+i` in the same way as above. The address returned by the expression is `sizeof(T)` _ `i` bytes after `p`, or the address of the `i`th element of type `T` after `p`. E.g. `i=3`, and `T` is a `char`, then `p+i` returns a `char _`that holds the address three characters after`p`.
 
 Does it make sense that `p+i` is 3 bytes after `p`? If not, make sure to understand before moving on!
 
-What Jae's **GUT** says, other than *feed me*, is that the `p[i]` is exactly the same thing as `*(p+i)`. Essentially, we can use the square brackets `[]` with a pointer to find the address of the `i`th element away from `p`. Then we can dereference the new address and voilá, we have the `i`th element itself!
+What Jae's **GUT** says, other than _feed me_, is that the `p[i]` is exactly the same thing as `*(p+i)`. Essentially, we can use the square brackets `[]` with a pointer to find the address of the `i`th element away from `p`. Then we can dereference the new address and voilá, we have the `i`th element itself!
 
 If this is sounding a lot like an array, that's because it basically is! If we set a pointer to the beginning of an array, we can use the exact same syntax to access the elements in the array that we want.
-
 
 ```c
 int a[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -282,6 +277,7 @@ p+5 == a+5; // p+5 is a pointer to the 5th element of the array, so is a+5
 ```
 
 Jae's **GUT** goes the other way too! Arrays, in cases of pointer arithmetic, operate as pointers to the first element.
+
 > i.e. Given an array `a` of type `T` elements </br>
 > a+1 == &a[0]+1
 
@@ -290,8 +286,8 @@ So aren't pointers and arrays the same? **Wrong**! Here are the cases in which a
 **`sizeof` operator**
 
 As mentioned above, the size of an array is
-Note that as discussed above, `sizeof` is an operator, not a function. 
-Which means that for classic C `sizeof` is evaluated at *compile time*, so the
+Note that as discussed above, `sizeof` is an operator, not a function.
+Which means that for classic C `sizeof` is evaluated at _compile time_, so the
 value of the operator cannot be anything that depends on user input.
 
 **Array is a constant variable**
@@ -307,7 +303,6 @@ a++; // illegal (will throw an error): `a` is an array name, a constant variable
 Unlike a pointer, though, an array is a constant variable. You cannot change its
 assignment after it has been created, it must point to the same chunk of memory.
 
-
 **Arrays cannot be passed into functions**
 
 Note that once you pass an array into a function, the array becomes a pointer to
@@ -316,8 +311,7 @@ a[10]` was declared, `sizeof(a)` returns the number of bytes of the array `a`,
 ie 40. But if you pass `a` into a function as `arr`, then `sizeof(arr)` is NOT
 40, but 8, the size of a pointer.
 
-
-### Strings in C ###
+### Strings in C
 
 Strings in C are just a special case of arrays: C strings are arrays of
 characters with a null terminating character at the end.
@@ -330,9 +324,9 @@ char *s = "my string"; // modifiable pointer
 ```
 
 There's a slight difference between these two definitions. `c` is an array which
-means you can't move where it points to: it's always going to point to the character 
-`a`. `s`, on the other hand, can be incremented and decremented and moved around 
-however you like. `"my string"`, however, can't be modified; it's a string literal! 
+means you can't move where it points to: it's always going to point to the character
+`a`. `s`, on the other hand, can be incremented and decremented and moved around
+however you like. `"my string"`, however, can't be modified; it's a string literal!
 
 Some useful string functions (need to `#include string.h`):
 
@@ -365,8 +359,7 @@ char a[][10] = {"hello", "world" }; //what's the difference here?
 
 You can find more examples of this in [`E-Memory-Pointers/code/ptrtoptrs.c`](https://github.com/cs3157/recitations/blob/master/E-Memory-Pointers/code/ptrtoptrs.c).
 
-
-## Heap allocations ##
+## Heap allocations
 
 Sometimes you need memory to persist across function calls (recall
 pseudo-pass-by-reference using pointers). Recall also that variables declared
@@ -382,7 +375,7 @@ int *p = (int *) malloc(100 * sizeof(int));
 // malloc returns NULL if it cannot allocate the requested memory
 if (p == NULL) {
   perror("malloc failed");
-  exit(1); 
+  exit(1);
 }
 // initialize all elements to 0
 for (int i = 0; i < 100; i++)
@@ -393,7 +386,7 @@ memset(p, 0, 100 * sizeof(int));
 free(p);
 ```
 
-## Memory Errors ##
+## Memory Errors
 
 You'll be testing your code with valgrind for this class to make sure you don't
 have any memory errors in your code. This can include forgetting to free
@@ -409,7 +402,7 @@ with the debugging flag `-g`.
 The following are excerpts from `recitation-4-code/invalidwrite.c` and
 `recitation-4-code/leak.c`.
 
-### Valgrind+Makefile=Good ###
+### Valgrind+Makefile=Good
 
 Remembering to run valgrind, and retyping the command, is annoying. A clever way
 to more easily run valgrind repeatedly as part of your normal edit/compile/test
@@ -428,8 +421,7 @@ valgrind: main
 Then instead of running `make` followed by `./main` you can just run
 `make valgrind` and it will compile your code and run it under valgrind.
 
-
-### Invalid Write ###
+### Invalid Write
 
 This is pretty easy to do but hard to catch in your code. Like many memory
 errors its usually caused by an off-by-one error. Imagine this:
@@ -452,7 +444,7 @@ p++;
 
 `p` will now point past the space it was allocated. We know nothing about this
 space. It could be accessible, it could be protected. It could be someone else's
-variable that we're about to change. *This is terrible*. But let's mess around
+variable that we're about to change. _This is terrible_. But let's mess around
 with it.
 
 ```c
@@ -469,10 +461,10 @@ Now you've got an invalid read. Valgrind will tell you about these and where
 they're happening. So long as you know what you're looking for you should be
 able to find it.
 
-### Memory leaks ###
+### Memory leaks
 
 Calling malloc without free-ing the memory you've allocated is awful. You're
-taking away memory from other running processes.  To correct for this, when
+taking away memory from other running processes. To correct for this, when
 you're finished, just call `free()` on the pointer to the memory that was
 malloced.
 
@@ -486,7 +478,7 @@ though. Imagine you've malloced space for an array of arrays, each of which was
 also malloc'ed. You'll have to go back through, freeing each individual array,
 and then when you're finished with that, free the higher order array.
 
-### Uninitialized values ###
+### Uninitialized values
 
 Valgrind will also inform you when the visible behavior of the program is affected by usage of uninitialized values. For example, let's say you want to increment a variable, but forget to initialize it:
 
@@ -496,20 +488,19 @@ int *d = (int *)malloc(sizeof(int));
 printf("%d\n", *d);
 ```
 
-Valgrind will inform you that the visible behavior of your program depends on an uninitialized, hence unpredictable, values. Always be sure to initialize your variables before using them! 
+Valgrind will inform you that the visible behavior of your program depends on an uninitialized, hence unpredictable, values. Always be sure to initialize your variables before using them!
 
-## Lab 2 ##
+## Lab 2
 
 Tips:
-  - Test all your code with valgrind. Just do it.
-  - Watch out for fence post errors when it comes to invalid read/writes. You're
-    probably just one outside of your bounds
-  - Watch out for being just inside your bounds on freeing. If you have a leak,
-    its probably because you forgot to free one last element.
-  - Don't forget that in C, strings are characters arrays followed by a *null
-    character*. Without the null character, C has no idea where your string ends!
-  - ALWAYS check the return value of malloc to make sure you were actually given
-    allocated memory.
-  - Name your executables properly. For part1, `isort` and for part2, `twecho`.
 
-
+- Test all your code with valgrind. Just do it.
+- Watch out for fence post errors when it comes to invalid read/writes. You're
+  probably just one outside of your bounds
+- Watch out for being just inside your bounds on freeing. If you have a leak,
+  its probably because you forgot to free one last element.
+- Don't forget that in C, strings are characters arrays followed by a _null
+  character_. Without the null character, C has no idea where your string ends!
+- ALWAYS check the return value of malloc to make sure you were actually given
+  allocated memory.
+- Name your executables properly. For part1, `isort` and for part2, `twecho`.

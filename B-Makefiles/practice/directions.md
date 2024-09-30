@@ -1,8 +1,8 @@
-# Recitation 2: Practice #
+# Recitation 2: Practice
 
 Try to do the following programs without a compiler, just pen and paper.
 
-## Problem 1 ##
+## Problem 1
 
 Read the sample makefile below:
 
@@ -25,13 +25,13 @@ short a makefile as possible.
 
 The requirements for the Makefile are as follows:
 
-  1. Add a "clean" target that removes all compiled files.
-  2. Add an "all" target that runs the clean target and then compiles
-  3. Design your file such that typing `make` in the shell will result in all
-     compiled files being removed, the entire project being compiled, and the
-     compiled file being executed. **NOTE**: This requirement is incredibly bad
-     practice, but will illustrate a point about Makefiles.
-  4. The executable should be called "main" and should have debugging flags
+1. Add a "clean" target that removes all compiled files.
+2. Add an "all" target that runs the clean target and then compiles
+3. Design your file such that typing `make` in the shell will result in all
+   compiled files being removed, the entire project being compiled, and the
+   compiled file being executed. **NOTE**: This requirement is incredibly bad
+   practice, but will illustrate a point about Makefiles.
+4. The executable should be called "main" and should have debugging flags
 
 p1/main.c
 

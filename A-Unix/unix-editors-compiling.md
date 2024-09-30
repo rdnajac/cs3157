@@ -1,15 +1,15 @@
-# Unix, Text Editors, and Compiling #
+# Unix, Text Editors, and Compiling
 
-## Logging in ##
+## Logging in
 
 - If you're on a Mac, open up the Terminal app.
 - If you're on Windows, install [MobaXterm](http://mobaxterm.mobatek.net/).
 - Type `ssh your_uni@clac.cs.columbia.edu`. You will be prompted for your CLAC
-password.
+  password.
 - If you want to share graphical programs as well as the shell with the remote
-machine, enable X11 Forwarding: `ssh -Y your_uni@clac.cs.columbia.edu`
+  machine, enable X11 Forwarding: `ssh -Y your_uni@clac.cs.columbia.edu`
 
-### Changing your password ###
+### Changing your password
 
 Earlier this week, we generated a password and emailed it to you. You may want
 to change your password by entering the command:
@@ -19,24 +19,23 @@ to change your password by entering the command:
 Enter your current password and hit return. Then, enter your new password. For
 security reasons, your keystrokes are not displayed when typing passwords.
 
-### What about CLIC? ###
+### What about CLIC?
 
 You might've heard about CLIC, the CS department's computing service. We used to
 require CLIC accounts for this course, but we are now running our own computing
 infrastructure called CLAC. It stands for "**C** **L**anguage is **A**wesome and
 **C**ool."
 
+## Basic UNIX
 
-## Basic UNIX ##
-
-### Paths ###
+### Paths
 
 A good place to start with UNIX is the filesystem structure. Our CLAC machines
 run Ubuntu Linux. Unlike Windows machines, UNIX uses forward slashes to separate
 each part of the file path.
 
 An example file path in UNIX might be `/usr/bin/dict`. The path `/` by itself
-denotes *the highest level directory*. If you start any path with a forward
+denotes _the highest level directory_. If you start any path with a forward
 slash, it will assumed to be a path relative to the root directory `/`.
 
 Alternatively, your current directory is represented by `./`. In most cases you
@@ -53,7 +52,7 @@ directory `/students` in a path, you can do so in two ways:
 root directory `/` from the directory `/students/alice` using the relative path
 `../../`.
 
-### Basic Navigation ###
+### Basic Navigation
 
 When you log into CLAC, your current (working) directory will be
 `/students/your_uni`. Check this by typing:
@@ -95,9 +94,9 @@ Some commands in UNIX take flags. These are special arguments preceded by a
 dash. The two flags we use the most with `ls` are:
 
 - `-l` shows more information about each file, such as the size, owner, and
-permissions.
+  permissions.
 - `-a` includes files that are hidden. In UNIX, these are files whose names
-start with a period, such as `.hidden.txt`.
+  start with a period, such as `.hidden.txt`.
 
 Try these commands. Notice how the output changes for each one.
 
@@ -135,21 +134,21 @@ to learn more about the ls command:
 
 Use `q` to quit out of a man page.
 
-### Useful Tricks ###
+### Useful Tricks
 
-#### Tab completion ####
+#### Tab completion
 
 Tab completion is a feature that auto-completes your commands when you press the
 tab key. For example, typing `tou` followed by the tab key will complete to
 `touch`. Tab completion also works for directory and file names.
 
-#### Previous command ####
+#### Previous command
 
 You can go through your history by pressing the up and down arrows in terminal.
 This will navigate between previously used commands so that you can easily use
 the same commands over and over.
 
-#### Reverse intelligent search (reverse-i-search) ####
+#### Reverse intelligent search (reverse-i-search)
 
 You can also search through your command history. Press Ctrl-R to bring up the
 search prompt. Start typing until you find the command you're looking for.
@@ -157,15 +156,14 @@ search prompt. Start typing until you find the command you're looking for.
 This feature is especially useful for long, complicated commands that you rarely
 use. Instead of memorizing them, you can simply search your history.
 
-
-## Text Editors ##
+## Text Editors
 
 There are two main text editors that you can use from inside terminal: `emacs`
 and `vim`. Although we are teaching the course with `vim`, which editor you use
 is ultimately your decision. (You could even write everything in `nano` if you
 really wanted, but it might get annoying.)
 
-### Vim ###
+### Vim
 
 Vim is a difficult to use text editor and can be confusing at first. Its goal is
 to be incredibly efficient by preventing unnecessary movement of your hands
@@ -187,28 +185,28 @@ Now let's switch back to Normal mode. Press the `esc` key to switch back.
 Most vim commands execute as soon as you type them. Here are some basic commands
 that will execute immediately:
 
-  - `h` (left), `j` (down), `k` (up), and `l` (right) are how you move while in
-    Normal mode. You may also use the arrow keys.
-  - `dd` deletes the current line
-  - `D` deletes from the current location to the end of the line
-  - `yy` copies the current line
-  - `p` pastes whatever has been previously copied or deleted
-  - `0` jumps to the beginning of the line
-  - `$` jumps to the end of the current line
-  - `w` jumps to the beginning of the next word (`W` uses a broader definition of word)
-  - `b` jumps to the end of the previous word (likewise `B`)
-  - `u` undoes the last change
-  - `Ctrl-R` redoes the last change
+- `h` (left), `j` (down), `k` (up), and `l` (right) are how you move while in
+  Normal mode. You may also use the arrow keys.
+- `dd` deletes the current line
+- `D` deletes from the current location to the end of the line
+- `yy` copies the current line
+- `p` pastes whatever has been previously copied or deleted
+- `0` jumps to the beginning of the line
+- `$` jumps to the end of the current line
+- `w` jumps to the beginning of the next word (`W` uses a broader definition of word)
+- `b` jumps to the end of the previous word (likewise `B`)
+- `u` undoes the last change
+- `Ctrl-R` redoes the last change
 
 Some vim commands will not be executed until you press enter. These begin with a
 colon.
 
-  - `:w [optional filename]` — save the current file if no file name is passed,
-    or write the current file to specified location.
-  - `:x` or `:wq` — save and quit
-  - `:e filename` — open the filename specified
-  - `:q` — quit vim and return to the shell
-  - `:[line number]` — jump to that line
+- `:w [optional filename]` — save the current file if no file name is passed,
+  or write the current file to specified location.
+- `:x` or `:wq` — save and quit
+- `:e filename` — open the filename specified
+- `:q` — quit vim and return to the shell
+- `:[line number]` — jump to that line
 
 In vim, most commands work with some sort of combination between prepositions
 and actions. For example, `gg=G` would indent the entire file, as `gg` takes you
@@ -237,10 +235,9 @@ adding this to your .vimrc:
     set number
     syntax on
 
+### Emacs
 
-### Emacs ###
-
-*May be skipped for time*
+_May be skipped for time_
 
 Emacs is an easier to pick up text editor, and many of its commands are identical
 to those of the shell.
@@ -255,15 +252,15 @@ switch between modes.
 
 Emacs has the same functionality as vim, and we present the basics below:
 
-  - 'Ctrl-f' will move your cursor forward, 'Ctrl-b' will move it back, 'Ctrl-p'
-    will move it up, 'Ctrl-n' will move it down; the arrow keys work as well
-  - 'Ctrl-s' will search for a word forward, 'Ctrl-r' will search for a word backward
-  - 'Ctrl-a' goes to beginning of line, 'Ctrl-e' goes to end
-  - 'Ctrl-k' will delete the portion of the current line after the cursor
-  - 'Ctrl-spacebar' to select text to manipulate
-  - 'Esc-w' to copy text, 'Ctrl-w' to cut text, Ctrl-y' will paste your most
-    recently copied/deleted text
-  - 'Esc-g g' then enter a line number to jump to a particular line in the buffer
+- 'Ctrl-f' will move your cursor forward, 'Ctrl-b' will move it back, 'Ctrl-p'
+  will move it up, 'Ctrl-n' will move it down; the arrow keys work as well
+- 'Ctrl-s' will search for a word forward, 'Ctrl-r' will search for a word backward
+- 'Ctrl-a' goes to beginning of line, 'Ctrl-e' goes to end
+- 'Ctrl-k' will delete the portion of the current line after the cursor
+- 'Ctrl-spacebar' to select text to manipulate
+- 'Esc-w' to copy text, 'Ctrl-w' to cut text, Ctrl-y' will paste your most
+  recently copied/deleted text
+- 'Esc-g g' then enter a line number to jump to a particular line in the buffer
 
 To exit and save we will use Ctrl-X + Ctrl-C. If you just want to save then use
 Ctrl-X + Ctrl-S.
@@ -278,7 +275,7 @@ shortcuts.
 
 *Note that backspaces can be a little funky when ssh-ing into CLAC and your
 *backspace button might actually be sending "Ctrl + H" instead! To fix this you
-*will have to add the following lines to your .emacs file.
+\*will have to add the following lines to your .emacs file.
 
     ;; make sure backspace deletes backwards
     (normal-erase-is-backspace-mode 1)
@@ -295,25 +292,24 @@ And if you want mouse support, you'll have to add the following:
     (global-set-key [mouse-4] (lambda () (interactive) (scroll-down 1))) ; For scrolling up
     (global-set-key [mouse-5] (lambda () (interactive) (scroll-up 1))) ; For scrolling down
 
-
-## Compiling and Linking a C Program ##
+## Compiling and Linking a C Program
 
 Just like Java code, C code can't be run directly on the CPU. It's converted to
 an executable in these three steps:
 
-  1. **Pre-processing:** This is when the compiler processes lines that start
-     with a hashmark `#`. For example, a line like `#include "somefile.h"` would
-     be replaced with the contents of somefile.h. All other lines are passed
-     onto the next step without modification.
+1. **Pre-processing:** This is when the compiler processes lines that start
+   with a hashmark `#`. For example, a line like `#include "somefile.h"` would
+   be replaced with the contents of somefile.h. All other lines are passed
+   onto the next step without modification.
 
-  2. **Compiling:** This converts the C source code into a lower level language
-     that's specific to the operating system and type of CPU in the computer. It
-     reads C source code files (such as `foo.c`) and saves its output to object
-     files (`foo.o`).
+2. **Compiling:** This converts the C source code into a lower level language
+   that's specific to the operating system and type of CPU in the computer. It
+   reads C source code files (such as `foo.c`) and saves its output to object
+   files (`foo.o`).
 
-  3. **Linking:** The previous step may have produced several .o files that each
-     contain part of our program's code. Linking puts all of that code together
-     into a single file that we can execute.
+3. **Linking:** The previous step may have produced several .o files that each
+   contain part of our program's code. Linking puts all of that code together
+   into a single file that we can execute.
 
 Let's take a look at this process in an actual program. We'll create a
 simple program that computes 1 + 2 by calling a function in another file.
@@ -357,19 +353,19 @@ Let's compile `main.c`:
 
 What do these parameters mean?
 
-  - `-g` — include extra information so that, if the program crashes, we can
-    know which line and function caused the crash
-  - `-Wall` — turns on a lot of compile-time warnings. Warnings are likely
-    problems with your code, but they aren't so severe as to be errors that mean
-    it won't run at all. These can be small problems now that cause big crashes
-    later, so it's best to turn this on when compiling and fix all warnings.
-  - `-c` — only preprocess and compile the files (do not link them yet)
+- `-g` — include extra information so that, if the program crashes, we can
+  know which line and function caused the crash
+- `-Wall` — turns on a lot of compile-time warnings. Warnings are likely
+  problems with your code, but they aren't so severe as to be errors that mean
+  it won't run at all. These can be small problems now that cause big crashes
+  later, so it's best to turn this on when compiling and fix all warnings.
+- `-c` — only preprocess and compile the files (do not link them yet)
 
 After running the command above, you should have a main.o in your directory.
 
 There was one other set of directives that we've used now. The `#ifndef`
 `#define` and `#endif` directives. The first and the last define a block of code
-that should only be included if a pre-processor variable is *not* defined. This
+that should only be included if a pre-processor variable is _not_ defined. This
 will prevent multiple header files from conflicting. If myadd.h is included more
 than once, the first time the pre-processor will define \__MYADD_H_ and each
 time thereafter will skip over the entire file.
@@ -388,7 +384,7 @@ linking, it actually needs the code for `add()`:
 
     gcc -g main.o -o main
 
-  - `-o filename` — tells GCC what to name the output file
+- `-o filename` — tells GCC what to name the output file
 
 myadd.c
 
@@ -414,7 +410,6 @@ And then finally link our two object files into the executable `main`.
 
     gcc -g myadd.o main.o -o main
     ls
-
 
 You should now have an executable file in your directory `main`. Running
 `./main` will run your program.

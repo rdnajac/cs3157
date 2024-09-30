@@ -3,29 +3,29 @@
 Before we have a look at how memory works,
 let's take a bit of time to refresh our memory about bits:
 
-  - **Bit** (b):
-    - A single digit in binary
-    - Can take on one of two possible values: 1 or 0
-    - Often used to represent on/off, true/false, etc.
-  - **Byte** (B):
-    - 8 bits make a byte
-    - Can take on 2^8 = 256 different values (from 0 to 255, inclusive)
-  - **Hexadecimal**:
-    - A base-16 numerical notation that can represent up to 15 in a single digit
-    - Uses base-10 + first 6 letters of alphabet:
-      { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a, b, c, d, e, f }
-    - By convention, we prefix numbers in hexadecimal notation with "0x"
-      e.g. 0x3157
-    - Single digit can represent up to 2^4; two digits can represent 2^8
-    - Bytes are often represented using 2 hexadecimal digits
-  - **Least significant bit** (LSB):
-    - Right-most binary digit
-    - Usually denotes whether a number is even or odd
-  - **Most significant bit** (MSB):
-    - Left-most binary digit
-    - Meaning depends on representation:
-      for unsigned (positive) integers, this is just the largest place value;
-      for signed integers, see below (Two's complement)
+- **Bit** (b):
+  - A single digit in binary
+  - Can take on one of two possible values: 1 or 0
+  - Often used to represent on/off, true/false, etc.
+- **Byte** (B):
+  - 8 bits make a byte
+  - Can take on 2^8 = 256 different values (from 0 to 255, inclusive)
+- **Hexadecimal**:
+  - A base-16 numerical notation that can represent up to 15 in a single digit
+  - Uses base-10 + first 6 letters of alphabet:
+    { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a, b, c, d, e, f }
+  - By convention, we prefix numbers in hexadecimal notation with "0x"
+    e.g. 0x3157
+  - Single digit can represent up to 2^4; two digits can represent 2^8
+  - Bytes are often represented using 2 hexadecimal digits
+- **Least significant bit** (LSB):
+  - Right-most binary digit
+  - Usually denotes whether a number is even or odd
+- **Most significant bit** (MSB):
+  - Left-most binary digit
+  - Meaning depends on representation:
+    for unsigned (positive) integers, this is just the largest place value;
+    for signed integers, see below (Two's complement)
 
 ### Two's Complement
 
@@ -39,11 +39,11 @@ If it's a 0, the number is positive, but if it's a 1, the number is negative.
 
 To figure out what negative number is represented (e.g. 1100):
 
-  1. Make sure that MSB is 1; note that the number is negative (**1**100)
-  2. Invert all the bits (1100 -> 0011)
-  3. Find the number's magnitude as if it were positive (0011 = 3)
-  4. Add 1 to the magnitude (3 + 1 = 4)
-  5. The value of the number is the negative of the result from step 4 (-4)
+1. Make sure that MSB is 1; note that the number is negative (**1**100)
+2. Invert all the bits (1100 -> 0011)
+3. Find the number's magnitude as if it were positive (0011 = 3)
+4. Add 1 to the magnitude (3 + 1 = 4)
+5. The value of the number is the negative of the result from step 4 (-4)
 
 So why do we use this weird form of representation?
 Well as it turns out, in two's complement, the computer can perform arithmetic
@@ -51,17 +51,17 @@ on negative numbers as if they were positive numbers!
 (Find out more in w3827: Fundamentals of Computer Systems.)
 
 Let's look at how two's complement works in 3 bits first:
-      
-Binary | unsigned decimal | two's complement decimal
------- | ---------------- | ------------------------ 
-000    | 0                | 0
-001    | 1                | 1
-010    | 2                | 2
-011    | 3                | 3
-100    | 4                | -4
-101    | 5                | -3
-110    | 6                | -2
-111    | 7                | -1
+
+| Binary | unsigned decimal | two's complement decimal |
+| ------ | ---------------- | ------------------------ |
+| 000    | 0                | 0                        |
+| 001    | 1                | 1                        |
+| 010    | 2                | 2                        |
+| 011    | 3                | 3                        |
+| 100    | 4                | -4                       |
+| 101    | 5                | -3                       |
+| 110    | 6                | -2                       |
+| 111    | 7                | -1                       |
 
 Things to notice:
 
@@ -86,7 +86,6 @@ It's also important to be aware of some note-worthy boundaries
 
 Try converting these hex numbers to binary and seeing for yourself!
 
-
 ## Bitwise Operators
 
 Remember that bits can be used to represent boolean (true/false) values too.
@@ -100,7 +99,6 @@ Note that these are different from C's _boolean_ operators
 
 If you need a refresher on boolean operators and their truth tables,
 see the appendix.
-
 
 #### Bitwise AND `&`
 
@@ -122,7 +120,6 @@ using a **bitmask**:
 It's called a bitmask because we place 0s in the digits we don't want to read,
 which will _mask_ out the corresponding digits via the bitwise AND.
 
-
 #### Bitwise OR `|`
 
 Behaves just like the bitwise AND, except with an OR operation.
@@ -140,11 +137,11 @@ In UNIX-like systems, we represent read, write, and execute permissions.
 A file may have any combination of those three permissions.
 We may represent them as follows:
 
-Permission | Symbolic | Binary | Decimal
----------- | -------- | ------ | -------
-Read       | `r--`    | `100`  | 4
-Write      | `-w-`    | `010`  | 2
-Execute    | `--x`    | `001`  | 1
+| Permission | Symbolic | Binary | Decimal |
+| ---------- | -------- | ------ | ------- |
+| Read       | `r--`    | `100`  | 4       |
+| Write      | `-w-`    | `010`  | 2       |
+| Execute    | `--x`    | `001`  | 1       |
 
 So, let's set our variables in code:
 
@@ -167,7 +164,6 @@ by reading the corresponding bit using a bitmask.
 Some of this may seem familiar if you've ever used `ls -la` or `chmod`.
 You'll come across this again later when we take a second look at UNIX!
 
-
 #### Bitwise XOR `^`
 
 Also known as a bitwise eXclusive OR;
@@ -180,7 +176,6 @@ For example:
     int y = 5;          // 0101 in binary
     assert(x ^ y == 3); // 0011 (3)
 
-
 #### Bitwise NOT `~`
 
 Also known as a bitwise complement.
@@ -191,7 +186,6 @@ Takes integer as operand and returns an integer with all its bits flipped.
 
     assert(~x == 10);   // 1010 (10, unsigned)
     assert(~y == -6);   // 1010 (-6, signed)
-
 
 ### Bitshifting
 
@@ -231,41 +225,46 @@ Note that this is equivalent to dividing a number by 2^`n`
     int x = 5;              // 0101 in binary
     assert(x >> 2 == 1);    // 0001 (1)
 
-## Appendix: Truth Tables for Bitwise Operations ##
+## Appendix: Truth Tables for Bitwise Operations
+
 ### AND
+
 If both bits are 1, the result will be 1. Otherwise, the result is 0.
 
-`A` | `B` | `A & B`
-:--:|:---:|:------:
-0   | 0   | **0**
-0   | 1   | **0**
-1   | 0   | **0**
-1   | 1   | **1**
+| `A` | `B` | `A & B` |
+| :-: | :-: | :-----: |
+|  0  |  0  |  **0**  |
+|  0  |  1  |  **0**  |
+|  1  |  0  |  **0**  |
+|  1  |  1  |  **1**  |
 
 ### OR
+
 If either bit is 1, the result will be 1. Otherwise, the result is 0.
 
-`A` | `B` | <code>A &#124; B</code>
-:--:|:---:|:--------------------------:
-0   | 0   | **0**
-0   | 1   | **1**
-1   | 0   | **1**
-1   | 1   | **1**
+| `A` | `B` | <code>A &#124; B</code> |
+| :-: | :-: | :---------------------: |
+|  0  |  0  |          **0**          |
+|  0  |  1  |          **1**          |
+|  1  |  0  |          **1**          |
+|  1  |  1  |          **1**          |
 
 ### XOR
+
 If both bits differ, the result is 1. If both bits are the same, the result is 0.
 
-`A` | `B` | `A ^ B`
-:--:|:---:|:------:
-0   | 0   | **0**
-0   | 1   | **1**
-1   | 0   | **1**
-1   | 1   | **0**
+| `A` | `B` | `A ^ B` |
+| :-: | :-: | :-----: |
+|  0  |  0  |  **0**  |
+|  0  |  1  |  **1**  |
+|  1  |  0  |  **1**  |
+|  1  |  1  |  **0**  |
 
 ### NOT
+
 The result is the opposite of the bit's current value.
 
-`A` | `~A`
-:--:|:-----:
-0   | **1**
-1   | **0**
+| `A` | `~A`  |
+| :-: | :---: |
+|  0  | **1** |
+|  1  | **0** |

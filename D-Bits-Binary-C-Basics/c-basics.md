@@ -13,7 +13,6 @@ for low-latency, low-overhead, close-to-hardware applications.
 
 Now, without further ado, let's take a look at C!
 
-
 ## Types
 
 Before going into detail about the different types available in C,
@@ -23,7 +22,7 @@ it's important to convey what we mean by the term, "**type**"
 For our purposes, and colloquially speaking, a type in C is just
 how we choose to understand the data we find in memory.
 It defines _how much data_ we should be expecting to read,
-and _how to understand_ the data we find. 
+and _how to understand_ the data we find.
 
 Now, with that in mind, let's look at some types!
 
@@ -44,13 +43,13 @@ Technically there's nothing stopping them from all of them being the same size,
 but it's all dependent on what kind of machine and compiler you're using.
 CLAC machines use the following:
 
-Type        | Size
------------ | -------
-`char`      | 1 byte
-`short`     | 2 bytes
-`int`       | 4 bytes
-`long`      | 8 bytes
-`long long` | 8 bytes
+| Type        | Size    |
+| ----------- | ------- |
+| `char`      | 1 byte  |
+| `short`     | 2 bytes |
+| `int`       | 4 bytes |
+| `long`      | 8 bytes |
+| `long long` | 8 bytes |
 
 On most modern machines, the sizes for `char`, `short`, and `int`
 are fairly consistent, and the same as what we have on CLAC.
@@ -60,7 +59,7 @@ You can always test it out for yourself:
 
 ```c
 #include <stdio.h>
- 
+
 int main(void) {
     printf("char: %lu\n
             short: %lu\n
@@ -75,7 +74,6 @@ int main(void) {
 
 There are some more technical details different ways of declaring integers,
 which you can find in the Appendix.
-
 
 ### Floating-Point Types
 
@@ -94,11 +92,11 @@ float <= double <= long double
 
 The sizes on CLAC are as follows:
 
-Type            | Size
---------------- | ---------
-`float`         | 4 bytes
-`double`        | 8 bytes
-`long double`   | 16 byetes
+| Type          | Size      |
+| ------------- | --------- |
+| `float`       | 4 bytes   |
+| `double`      | 8 bytes   |
+| `long double` | 16 byetes |
 
 Again, you can test it out for yourself:
 
@@ -171,11 +169,12 @@ that takes a single `float` as its parameter:
 int x = 34;
 foo((float) x);
 ```
+
 When we cast from an integer type to a floating-point type,
 the compiler produces instructions to convert our integer representation
 to floating-point representation.
 
-Keep in mind that when we convert between integer types, 
+Keep in mind that when we convert between integer types,
 we extend/truncate our integer in order to fit it into the size of the type
 we are casting it to. Note this can lead to some strange-looking results!
 For example, if we're casting from a positive `long` to an `int`,
@@ -210,7 +209,6 @@ if we're casting from a more precise floating-point type to a less precise one.
 We can actually use casting to "cast away" some of the things the compiler
 tries to enforce for us, like pointer types and `const`ness.
 Check out the Appendix for more details.
-
 
 ### Literals
 
@@ -290,13 +288,13 @@ The backslash `\` is used to specify an **escape sequence**,
 to denote characters that might be difficult to otherwise type out.
 Here are some common escape sequences:
 
-Escape Sequence | Character Description
---------------- | ---------------------
-`\n`            | newline
-`\r`            | carriage return
-`\\`            | backslash
-`\'`            | single quote
-`\"`            | double quote
+| Escape Sequence | Character Description |
+| --------------- | --------------------- |
+| `\n`            | newline               |
+| `\r`            | carriage return       |
+| `\\`            | backslash             |
+| `\'`            | single quote          |
+| `\"`            | double quote          |
 
 A `\` may also be followed by a numeric value in octal notation;
 `\x` may be followed by a numeric value in hexadecimal notation.
@@ -319,7 +317,6 @@ you could do something like the following:
 
     'j' - 'a'
 
-
 #### String Literals
 
 We write string literals as a sequence of valid `char` literals
@@ -329,7 +326,6 @@ We write string literals as a sequence of valid `char` literals
 
 String literals actually represent a null-terminated array of characters,
 which the compiler pre-allocates for us in static memory.
-
 
 ## Expressions and Statements
 
@@ -359,7 +355,7 @@ the following are examples of expressions:
     x += y
     x++
     foo(x, y + 3157)
-    
+
 Note that an assignment `=` operation is also an expression!
 It assigns the value of its right operand to its left operand,
 and yields the value of the left operand.
@@ -420,7 +416,6 @@ double b = f ? 4.2 : 1e20;   // b is assigned the value of 1e20
 
 It's sort of the same idea as an if/then/else, but keep in mind that
 those are separate, syntactic constructs in C (which we will cover below).
-
 
 #### "Boolean" operators
 
@@ -484,7 +479,6 @@ bar() || foo();     // prints bar! foo!
 This means that for some short-circuited statement like `foo() || bar()`,
 as long as `foo()` returns a nonzero value, `bar()` will never even be called.
 
-
 #### Operator Precedence
 
 Like in any other programming or symbolic language,
@@ -509,10 +503,7 @@ Aside from that, C operators are pretty straightforward to read and write.
 has a pretty clear listing of each operator, their precedence,
 and their associativity.
 
-
 #### L-values and R-values
-
-
 
 ## Statements
 
@@ -564,7 +555,6 @@ Using `break;` inside a loop will break out of the innermost loop. Using
 `continue;` will stop executing the current iteration of the loop and skip to
 the next iteration. `for(;;)` is an idiom for an infinite loop. `goto label`
 will jump to a line beginning with `label: `. Be careful with gotos.
-
 
 ## Appendix: Optional Language Reference Material
 

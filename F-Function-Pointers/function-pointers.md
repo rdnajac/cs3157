@@ -1,9 +1,10 @@
-_This note aims to cover topics useful for lab 3, material from Jae's lecture 
+_This note aims to cover topics useful for lab 3, material from Jae's lecture
 note 9, and information that's useful for completing the practice midterm._
 
-## Function Pointers (K&R 5.11) ##
-When writing a program, you'll often want your program to offer different 
-possible behaviors, but it's difficult to anticipate what behaviors users might 
+## Function Pointers (K&R 5.11)
+
+When writing a program, you'll often want your program to offer different
+possible behaviors, but it's difficult to anticipate what behaviors users might
 desire. For example, when writing a sort function, you could include a
 parameter that allows users them choose between sorting ascending and descending.
 However, what if a user wanted to sort characters by unicode value instead of
@@ -13,12 +14,13 @@ pass in different functions for different jobs. Some higher level (read:
 lambda-programming languages) support this is in a more 'native' way, but C
 does a pretty good job, too.
 
-In short, *function pointers make it possible to swap out functions*. 
-Making parts of your code easy to swap out makes your code more modular and 
+In short, _function pointers make it possible to swap out functions_.
+Making parts of your code easy to swap out makes your code more modular and
 extensible. These are characteristics of good code.
 
-### Accepting functions as a parameter to your function ###
-Function pointers allow you to **accept functions as a parameter** to another 
+### Accepting functions as a parameter to your function
+
+Function pointers allow you to **accept functions as a parameter** to another
 function. Here's an example of that functionality:
 
 ```c
@@ -33,24 +35,26 @@ void notifier(int (*fn)()) {
 
 Let's examine this more closely. We have a function called `notifier` whose only
 parameter is another function. When we include a function pointer in a method
-declaration, we specify what type of function it accepts. 
+declaration, we specify what type of function it accepts.
 
 The layout for a function pointer type is:
+
 ```
   returntype (*functionName)(parameter1type, parameter2type, ...)
-``` 
-**The type of our function pointer is denoted by its return type and the 
-types of its parameters.**  
-The name of the function being preecded with an asterisk tells us its a pointer. 
-The function is surrounded by parentheses so that the compiler doesn't think 
-we've got a variable `returntype *functionName`. The parentheses following the 
-declaration are necessary as well, even if the function we want to accept 
-doesn't have any arguments. 
+```
 
-Notice that the parameters do not have names. Only their types are declared so 
+**The type of our function pointer is denoted by its return type and the
+types of its parameters.**  
+The name of the function being preecded with an asterisk tells us its a pointer.
+The function is surrounded by parentheses so that the compiler doesn't think
+we've got a variable `returntype *functionName`. The parentheses following the
+declaration are necessary as well, even if the function we want to accept
+doesn't have any arguments.
+
+Notice that the parameters do not have names. Only their types are declared so
 that the compiler can check these.
 
-### Passing a function as a parameter ###
+### Passing a function as a parameter
 
 ```c
 int wasteTime() {
@@ -79,7 +83,8 @@ function, then you can think of `wasteTime()` as dereferencing the pointer.
 Therefore, when we call `notifier` and pass it `wasteTime` without parentheses, it
 passes the address to `wasteTime` to the `notifier` function.
 
-### Calling functions from pointers ###
+### Calling functions from pointers
+
 While we can't declare a function from the body of a method, we can declare and
 initialize function pointers. Let's expand on the code we've written so far:
 
@@ -105,13 +110,14 @@ Make sure to check out Jae's notes (lecture 7) for more complicated examples of
 this. Notice that we did the same thing when calling `fn()` in our `notifier`
 function.
 
-### Functions vs Pointers to Functions ###
+### Functions vs Pointers to Functions
+
 Functions aren't quite like regular variables, so function pointers aren't quite
 like regular pointers either. Think about this small program:
 
 ```c
 void myFunc(int x) {
-  x++; 
+  x++;
 }
 
 int functionAcceptor(void (*f)(int), void (*g)(int)) {
@@ -125,7 +131,7 @@ int main() {
 }
 ```
 
-**What will this program print?** Notice the line where we're comparing 
+**What will this program print?** Notice the line where we're comparing
 `myFunc` and `&myFunc`.
 
 ```
@@ -135,31 +141,32 @@ They're the same thing.
 Why? Because **referencing a pointer to a function just gets you the same
 pointer back**. It has no effect. How boring.
 
-### Bonus: Functions with Variable Arguments ###
+### Bonus: Functions with Variable Arguments
 
 This will come up again later on in the semester, but know that C (like Java)
 can have functions with a varible number of functions. If you think about it,
-`printf()` is a good example: you could have `printf("%d\n", x)` or 
+`printf()` is a good example: you could have `printf("%d\n", x)` or
 `printf("%d and %d\n", x, y)`. Once you've enumerated all the required
 arguments, you can specify that you would like to also accept variable arguments
 with an ellipsis (`...`):
 
     int myFWithVarArgs(int a, int b, ...);
 
-To reiterate, this will be brought up again later in the semester, but it's 
-good to get acclimated to this syntax. 
-*Bonus:* the e;lipsis works in Java function declarations too!
+To reiterate, this will be brought up again later in the semester, but it's
+good to get acclimated to this syntax.
+_Bonus:_ the e;lipsis works in Java function declarations too!
 
-### Some Notes About Lab 4 ###
-If you plan on doing the pair option and would like to 
-[procure a private GitHub repo](https://github.com/edu), please request one 
-ASAP, because it takes a few days to process. Additionally, if you're new to 
-GitHub/BitBucket, you may find the [Git Documentation](http://git-scm.com/book), 
-the [GitHub Help page](https://help.github.com/), and the 
+### Some Notes About Lab 4
+
+If you plan on doing the pair option and would like to
+[procure a private GitHub repo](https://github.com/edu), please request one
+ASAP, because it takes a few days to process. Additionally, if you're new to
+GitHub/BitBucket, you may find the [Git Documentation](http://git-scm.com/book),
+the [GitHub Help page](https://help.github.com/), and the
 [BitBucket Documentation](https://confluence.atlassian.com/display/BITBUCKET/Bitbucket+Documentation+Home)
 handy.
 
-Whether you choose to do the pair option or the solo option, you may wish to 
-review each of the I/O functions we've learned in lecture note 9. Be sure that 
+Whether you choose to do the pair option or the solo option, you may wish to
+review each of the I/O functions we've learned in lecture note 9. Be sure that
 you understand the differences between them and note that there are certain situations
 when some are more appropriate than others, and vice versa (ex., `fgets()` vs. `fread()`).

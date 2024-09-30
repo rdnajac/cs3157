@@ -1,12 +1,11 @@
-# Unix 2 #
+# Unix 2
 
 Now that we're a little more familiar with Unix, let's go over some things we
 glossed over in
 [the first Unix recitation](../A-Unix/unix-editors-compiling.md). We'll also
 learn tips and tricks to improve productivity on Unix-like computers.
 
-
-## Shells let users access a computer's resources ##
+## Shells let users access a computer's resources
 
 A **shell** is a program used to access files and programs on a computer. They
 can be graphical or text-based -- in this class, we'll only worry about text
@@ -31,7 +30,7 @@ using `bash` on CLAC, and want to try out `csh`:
 Once we're done playing with csh, just type `exit`. This tells `csh` that we
 want it to exit, leaving us with `bash`, the outer shell that launched it.
 
-## The `PATH` variable shows where to find programs ##
+## The `PATH` variable shows where to find programs
 
 Shells also allow us to set variables. The `PATH` variable is a list of
 colon-separated paths to directories that the shell looks inside to find
@@ -60,30 +59,28 @@ export PATH="/home/yourUNI/bin:$PATH"
 
 (More on how this code works at the end of this recitation.)
 
-
-### The `bin` directories each have a different purpose ###
+### The `bin` directories each have a different purpose
 
 Programs are installed in different directories depending on their origin and
 importance.
 
-* If the path begins with `/usr`, this directory is for non-essential programs.
+- If the path begins with `/usr`, this directory is for non-essential programs.
   The system can still retain basic functionality if we lose access to these.
-* If the directory is called `sbin`, it holds system or administrator programs.
+- If the directory is called `sbin`, it holds system or administrator programs.
   Directories called `bin` are meant for everyone to use.
-* If the path begins with `/usr/local`, it's for programs that aren't part of
+- If the path begins with `/usr/local`, it's for programs that aren't part of
   the operating system, such as programs that we wrote ourselves.
 
 Some examples:
 
-* `/bin` = essential, for all users (such as `ls` and `mv`)
-* `/sbin` = essential, for system and administrators (such as `fsck`, which
+- `/bin` = essential, for all users (such as `ls` and `mv`)
+- `/sbin` = essential, for system and administrators (such as `fsck`, which
   scans the filesystem for errors)
-* `/usr/bin` = non-essential, for all users (such as `gcc` and `valgrind`)
-* `/usr/local/bin` = non-essential, for all users, not part of OS (such as
+- `/usr/bin` = non-essential, for all users (such as `gcc` and `valgrind`)
+- `/usr/local/bin` = non-essential, for all users, not part of OS (such as
   MATLAB)
 
-
-### Other Unix filesystem conventions ###
+### Other Unix filesystem conventions
 
 The tilde `~` refers to the current user's home directory. Every user has a
 directory under `/home/yourUNI` for storing their files. For example, `~/cs3157`
@@ -109,19 +106,18 @@ failed).
 
 If you're interested in the filesystem and its design, check out these articles:
 
-* [Unix filesystem](https://en.wikipedia.org/wiki/Unix_filesystem)
-* Linux Foundation's [Filesystem Hierarchy Standard](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard)
+- [Unix filesystem](https://en.wikipedia.org/wiki/Unix_filesystem)
+- Linux Foundation's [Filesystem Hierarchy Standard](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard)
 
-
-## Permissions restrict what others can do with your files ##
+## Permissions restrict what others can do with your files
 
 On Unix-style filesystems, each file has a set of permissions associated with
 it. Each permission has both a character and a number associated with it.
 These are:
 
-* `r` = 4 for read (this file can be opened)
-* `w` = 2 for write (this file can be modified)
-* `x` = 1 for execute (this file can be run as a program)
+- `r` = 4 for read (this file can be opened)
+- `w` = 2 for write (this file can be modified)
+- `x` = 1 for execute (this file can be run as a program)
 
 If someone is allowed to both read and write to a file, the permission would be
 4 + 2 = 6. Notice that for each set of enabled permissions, the sum is unique.
@@ -130,9 +126,9 @@ computer to store the permission flags more efficiently.
 
 Additionally, there are three permissions per file:
 
-* User: Applies to what the owner of the file is allowed to do
-* Group: Applies to other users in the same group
-* World: Applies to all users on the computer
+- User: Applies to what the owner of the file is allowed to do
+- Group: Applies to other users in the same group
+- World: Applies to all users on the computer
 
 To see the permissions, we can use the `ls -l` flag.
 
@@ -141,8 +137,7 @@ represent user, group, and world permissions:
 
     yourUNI@vienna:~$ chmod 740
 
-
-## Shells are also scripting languages ##
+## Shells are also scripting languages
 
 In 1977, Stephen Bourne introduced the Bourne shell -- the first shell to
 support the style of scripting we use today. It let users write scripts as text
@@ -150,7 +145,7 @@ files with lists of commands, plus the usual programming language stuff like
 variables and control flow. (Confusingly, the Bourne shell and the Thompson
 shell it replaced are both called `sh`.)
 
-### Working with variables ###
+### Working with variables
 
 We can define variables like this. In shell scripts, most of the variables will
 be string type.
@@ -190,7 +185,7 @@ Finally, we can grab the stdout of any command with `$()`:
     yourUNI@vienna:~$ all_my_files=$(ls -a)
     yourUNI@vienna:~$ echo all_my_files # prints stored output of previous run of ls -a
 
-### Saving commands into a file ###
+### Saving commands into a file
 
 To put it all together, here's an example of a bash script file:
 
@@ -223,12 +218,12 @@ means we can run the script, like we would any program:
     yourUNI@vienna:~$ ./dogs.sh
     I have 42 dogs
 
-### Loops ###
+### Loops
 
 In shell scripts, for loops have:
 
-* String of newline-separated things to iterate through.
-* Variable name that will be set before each iteration.
+- String of newline-separated things to iterate through.
+- Variable name that will be set before each iteration.
 
 ```bash
 #!/bin/bash
@@ -244,24 +239,24 @@ for file in $(ls -a); do
 done
 ```
 
-### Conditionals ###
+### Conditionals
 
 The comparison operators are kind of weird:
 
 **Integers:**
 
-* `-eq` equal
-* `-ne` not equal
-* `-gt` greater than
-* `-ge` greater than or equal to
-* `-lt` less than
-* `-le` less than or equal to
+- `-eq` equal
+- `-ne` not equal
+- `-gt` greater than
+- `-ge` greater than or equal to
+- `-lt` less than
+- `-le` less than or equal to
 
 **Strings:**
 
-* `==` equal
-* `!=` not equal
-* `-z` check for empty string
+- `==` equal
+- `!=` not equal
+- `-z` check for empty string
 
 [Full list of comparison operators](http://www.tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html)
 
@@ -283,10 +278,9 @@ if [ $str == "hi" ]; then
 fi
 ```
 
+## SSH launches shells on computers over the network
 
-## SSH launches shells on computers over the network ##
-
-Just a note about how SSH works. When we type 
+Just a note about how SSH works. When we type
 `ssh yourUNI@clac.cs.columbia.edu`, the SSH program makes a connection to a CLAC
 server. The remote server launches a shell program, and connects its input and
 output to the SSH connection, so that we can control the computer remotely.

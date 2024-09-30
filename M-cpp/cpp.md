@@ -1,10 +1,10 @@
-## Introducing C++ ##
+## Introducing C++
 
-### Strings in C ###
+### Strings in C
 
 At this point, you're all quite familiar with C's quirks and kinks. Perhaps one of the most notable ones is the absence of a String datatype!
 
-Recall that strings in C are just special cases of arrays. C strings are arrays of characters with a null terminating character at the end. 
+Recall that strings in C are just special cases of arrays. C strings are arrays of characters with a null terminating character at the end.
 
 ```c
 char buf[50]; //stack allocation
@@ -15,20 +15,23 @@ strcpy(s, "hello");
 
 //don't forget to free s when you're done!
 ```
+
 But finally, after months of dealing with those pesky invalid reads, memory leaks, and so on, we can transition into a new language that permits a much friendlier way to handle strings: C++!
 
-### Classes/Structs in C++ ###
+### Classes/Structs in C++
+
 Before we go into strings in C++, let's talk about the basics of `class`es and `struct`s first. Although we can define a `struct` in C++ the same way we do in C, `structs` tend to get much more complicated in C++ than their C predecessors. But let's start with the C++ version of the `struct Pt` example from Jae's lecture notes:
 
 ```cpp
-struct Pt 
+struct Pt
 {
 	double x;
 	double y;
 }
 ```
 
-#### Stack Allocation in C++ ####
+#### Stack Allocation in C++
+
 Here's how you allocate space for a struct Pt in C++:
 
 ```cpp
@@ -37,9 +40,10 @@ struct Pt myPt;
 //in C++, you can omit the 'struct' part:
 Pt myPt2;
 ```
+
 It looks exactly like how we allocated it in C! Boooring. But is it really doing the same thing?
 
-Classes/structs in C++ have **constructors** whose purpose is to initialize all data members and base classes. When we declared our `struct Pt`, `myPt`, the default `Pt` constructor was called under the covers. If we don't define any constructors for a class/struct, the C++ compiler implicitly defines a default constructor for us. The synthesized default constructor will call the default constructors of all members of class type and leave members of built-in type undefined. 
+Classes/structs in C++ have **constructors** whose purpose is to initialize all data members and base classes. When we declared our `struct Pt`, `myPt`, the default `Pt` constructor was called under the covers. If we don't define any constructors for a class/struct, the C++ compiler implicitly defines a default constructor for us. The synthesized default constructor will call the default constructors of all members of class type and leave members of built-in type undefined.
 
 What if we attempted to call the default constructor like this?
 
@@ -65,26 +69,29 @@ Pt::Pt(double myX, double myY)
 	y = myY;
 }
 ```
+
 And we can call it like this:
 
 ```cpp
 Pt myPt2(4, 4);
 ```
 
-When we define member functions for our classes, we can choose to define them within the class definition (the part enclosed by the curly braces of `struct Pt`), or just declare them within the class definition and define them elsewhere. Member functions defined within a class definition are implicitly **inline**. Inline functions are kind of like macros in that calls to them are replaced with the body of the function. Inline functions should be short. 
-Note that functions declared `inline` are not guaranteed to be inlined; it is only a suggestion to the compiler! 
-If we don't define functions inside the class definition, we need to use the scope resolution operator, `::`, to indicate that it's a member of the class. 
+When we define member functions for our classes, we can choose to define them within the class definition (the part enclosed by the curly braces of `struct Pt`), or just declare them within the class definition and define them elsewhere. Member functions defined within a class definition are implicitly **inline**. Inline functions are kind of like macros in that calls to them are replaced with the body of the function. Inline functions should be short.
+Note that functions declared `inline` are not guaranteed to be inlined; it is only a suggestion to the compiler!
+If we don't define functions inside the class definition, we need to use the scope resolution operator, `::`, to indicate that it's a member of the class.
 
-A word of caution, though: if we define *any* constructors ourselves, we can no longer rely on the synthesized default constructor. Now that we've defined a constructor for `Pt` that takes two `double`s, we lose our synthesized default constructor. A declaration like this would be illegal now:
+A word of caution, though: if we define _any_ constructors ourselves, we can no longer rely on the synthesized default constructor. Now that we've defined a constructor for `Pt` that takes two `double`s, we lose our synthesized default constructor. A declaration like this would be illegal now:
+
 ```cpp
 struct Pt myPt; //error!
 ```
+
 So if we want our class to have a default constructor, we'd better make sure to define it along with our other constructors, lest the compiler complain.
 
 A convenient way to account for two constructors in one definition is to use **default arguments**. If no arguments are supplied to the constructor (as is what occurs when we call the default constructor), default values are assigned to the arguments, as if we had passed these values ourselves:
 
 ```cpp
-/*this constructor deals with calls to the default 
+/*this constructor deals with calls to the default
 constructor and calls to the constructor taking
 two doubles*/
 Pt::Pt(double myX = 0, double myY = 0)
@@ -93,15 +100,15 @@ Pt::Pt(double myX = 0, double myY = 0)
 	//and myY == 0
 	x = myX;
 	y = myY;
-	
+
 	//note that we'd have to update our function
 	//prototype to Pt(double myX = 0, double myY = 0);
 }
 ```
 
-Hand-in-hand with constructors are **destructors**. The purpose of the destructor is to deallocate all data members. If our constructor allocated space on the heap for its data members, our destructor should free up that space. If we don't explicitly define a destructor, the compiler will synthesize one for us, which just calls the destructors of all class type members and does nothing for the built-in type members. A stack-allocated variable's destructor is called when the variable falls out of scope, after which the stack shrinks accordingly. 
+Hand-in-hand with constructors are **destructors**. The purpose of the destructor is to deallocate all data members. If our constructor allocated space on the heap for its data members, our destructor should free up that space. If we don't explicitly define a destructor, the compiler will synthesize one for us, which just calls the destructors of all class type members and does nothing for the built-in type members. A stack-allocated variable's destructor is called when the variable falls out of scope, after which the stack shrinks accordingly.
 
-#### Heap Allocation in C++ ####
+#### Heap Allocation in C++
 
 Although you can still use `malloc` to allocate space on the heap, using `malloc` doesn't allow you to call the constructor of a class type object. A preferred way to do heap allocation in C++ is via the `new` operator:
 
@@ -112,6 +119,7 @@ Pt *myPt2 = new Pt(4, 4);
 //heap-allocated array of Pt's:
 Pt *myPtArray = new Pt[10];
 ```
+
 The `new` operator not only allocates space for `myPt` on the heap, but it also calls `Pt`'s constructor, in this case, the default constructor. Like with `malloc`, we must remember to free up the heap space we allocated with `new`:
 
 ```cpp
@@ -119,13 +127,14 @@ delete myPt;
 delete myPt2;
 delete [] myPtArray; //deleting a heap-allocated array
 ```
-`delete` calls the Pt destructor of myPt and frees up the heap space it was using. `new` goes hand-in-hand with `delete`, and `malloc` goes hand-in-hand with `free`. But don't try to mix the four, i.e., calling `new` and freeing the memory with `free`. 
 
-#### classes vs. structs ####
+`delete` calls the Pt destructor of myPt and frees up the heap space it was using. `new` goes hand-in-hand with `delete`, and `malloc` goes hand-in-hand with `free`. But don't try to mix the four, i.e., calling `new` and freeing the memory with `free`.
 
-There is a subtle, yet important difference between `class`es and `struct`s in C++. In a struct, the members defined prior to the first access specifier (e.g., `public`, `private`, etc.) are `public`. In a `class`, they are `private`. We want our members to be `private`, so we'll be writing `class`es in our labs. 
+#### classes vs. structs
 
-### The "Basic 4" and Jae's MyString Class ###
+There is a subtle, yet important difference between `class`es and `struct`s in C++. In a struct, the members defined prior to the first access specifier (e.g., `public`, `private`, etc.) are `public`. In a `class`, they are `private`. We want our members to be `private`, so we'll be writing `class`es in our labs.
+
+### The "Basic 4" and Jae's MyString Class
 
 There are four elements of a C++ class that you should always consider:
 
@@ -134,14 +143,15 @@ There are four elements of a C++ class that you should always consider:
 3. Copy Constructor
 4. Operator=()
 
-#### The Copy Constructor ####
+#### The Copy Constructor
 
-We've already discussed constructors and destructors, but what about the other two? The **copy constructor** specifies how to construct a class type variable using an argument of that class type, i.e.: 
+We've already discussed constructors and destructors, but what about the other two? The **copy constructor** specifies how to construct a class type variable using an argument of that class type, i.e.:
 
 ```cpp
 string myString("hello");
 string myStringCopy(myString); //invoking the copy constructor explicitly
 ```
+
 The copy constructor is called implicitly in a couple other scenarios: passing by value and returning by value.
 
 ```cpp
@@ -158,7 +168,7 @@ class MyString
 {
 	char *data;
 	int len;
-	
+
 	MyString(char *p);
 	...
 
@@ -175,7 +185,7 @@ MyString::MyString(char *p)
 		strcpy(data, p);
 	}
 
-	else 
+	else
 	{
 		data = new char[1];
 		data[0] = '\0';
@@ -189,9 +199,10 @@ MyString::~MyString()
 	delete[] data;
 }
 ```
+
 If we didn't define a copy constructor for `MyString`, initializing a new `MyString` from another `MyString` would make the new `MyString`'s data pointer point to the same heap-allocated space as the old `MyString`'s data pointer. Upon destruction of either `MyString`, the other `MyString` would have a data pointer pointing to a freed piece of memory: hello, memory errors!
 
-As a rule of thumb, if your class necessitates explicit definition of a destructor, as `MyString` does, chances are that your class necessitates explicit definition of a copy constructor. 
+As a rule of thumb, if your class necessitates explicit definition of a destructor, as `MyString` does, chances are that your class necessitates explicit definition of a copy constructor.
 
 So how do we define a copy constructor? We know that the copy constructor is called when we try to pass an object by value, so we can't pass a `MyString` object as a parameter to our copy constructor; how can we define a copy constructor while relying on the existence of a copy constructor? We need a C++ construct known as a **reference**. You can think of a reference as a dereferenced pointer to something. For example:
 
@@ -203,6 +214,7 @@ int& y = x; //y is a reference to x
 x = 6; //y is now 6
 y = 7; //x is now 7
 ```
+
 The reference construct allows us to pass an argument by reference, without the need for all that pointer business we've seen before. For example, this function will increment the integer passed as an argument, since the variable it's working with isn't a temporary copy of the argument--it's an alias for the argument itself!
 
 ```cpp
@@ -220,15 +232,16 @@ int y = 5;
 increment(y);
 cout << y << endl; //prints 6
 ```
+
 Using this new reference construct, we are ready to define our copy constructor:
 
 ```cpp
-MyString::MyString(const MyString& s) 
+MyString::MyString(const MyString& s)
 /*note that the const indicates that we will not modify
  the contents of s within this constructor*/
 {
     len = s.len;
-    
+
     data = new char[len+1];
     strcpy(data, s.data);
 }
@@ -239,7 +252,7 @@ Note that the copy constructor takes a constant reference (`const MyString&`). I
 1. By taking `const`, you increase the range of things you can take (both `const` and not `const` arguments).
 2. By taking a reference, you avoid the overhead associated with making a copy of the argument, so the code will be a little faster.
 
-#### The Assignment Operator ####
+#### The Assignment Operator
 
 If your class necessitates the definition of a copy constructor, your class necessitates the definition of an **assignment operator** for the same reasons. We can write our assignment operator almost entirely the same way we wrote our copy constructor, except now we also have to deal with the existing data of the lvalue. We can examine the contents of the lvalue via the C++ `this` pointer. `this` is a pointer to the object on which we're currently operating.
 
@@ -259,7 +272,7 @@ MyString& MyString::operator=(const MyString& rhs)
     delete[] data;
 
     // now copy from rhs
-    
+
     len = rhs.len;
 
     data = new char[len+1];
@@ -268,6 +281,7 @@ MyString& MyString::operator=(const MyString& rhs)
     return *this; //returns the MyString on which we are calling the assignment operator
 }
 ```
+
 Note that our assignment operator should return a `MyString&` so that we can chain calls to it:
 
 ```cpp
@@ -277,11 +291,12 @@ MyString MS3("yay");
 
 (MS = MS2) = MS3; //MS is now "yay"
 ```
-Make sure you understand the importance of the Basic 4 and always consider whether they're necessary for your program. Hint: they're almost always necessary. 
 
-### Other Nifty C++ Features ###
+Make sure you understand the importance of the Basic 4 and always consider whether they're necessary for your program. Hint: they're almost always necessary.
 
-#### Implicit Conversions ####
+### Other Nifty C++ Features
+
+#### Implicit Conversions
 
 Recall from your lovely memories with C that there are some automatic type conversions that occur when intermixing types, for example:
 
@@ -289,14 +304,15 @@ Recall from your lovely memories with C that there are some automatic type conve
 int y = 5;
 double z = y; //y is coerced into double type
 ```
+
 Automatic type conversions can occur for class type variables in C++. For our `MyString` class, we can do something like this:
 
 ```cpp
 MyString s("hello");
-s += "world"; 
-/*compiler uses the MyString constructor that 
-takes a char* to create a temporary MyString whose 
-value is "world", which allows us to call our 
+s += "world";
+/*compiler uses the MyString constructor that
+takes a char* to create a temporary MyString whose
+value is "world", which allows us to call our
 += operator on two MyString objects*/
 
 //note that the lifetime of our temporary MyString is the expression in which it was created
@@ -304,7 +320,7 @@ value is "world", which allows us to call our
 
 If we want automatic type conversion to occur, we need to make sure that the compiler is able to make the connection between the first type and the other, via our constructors (i.e., we can construct a `MyString` from a `char*`, but not from an `int`.)
 
-#### Operators ####
+#### Operators
 
 C++ allows us to define our own operators for the classes we write. This means that we can do things like:
 
@@ -313,13 +329,14 @@ MyString MS("hi");
 MyString MS2("dude");
 MS = MS + MS2; //MS reads "hidude"
 ```
-You can find a list of all overloadable operators in C++ on page 553 of Lippman, 5th ed. For our `MyString` class, we'll be overloading `+`, `=`, `<<`, `>>`, and `[]` (plus the ones you'll overload in lab 9). 
 
-You may find yourself running into the question of member versus nonmember implementation of your operators. Symmetric operators, operators that should allow implicit conversion of either operand, should be nonmember functions. Two examples of these are the `+` and `-` operators. Operators whose left-hand operand isn't of the class type shouldn't be members of the class, for example, the `<<` and `>>` operators of our `MyString` class. Operators that change the state of their object *should* be members. The assignment (`=`), subscript (`[]`), call (`()`), and member access arrow (`->`) operators *must* be members. 
+You can find a list of all overloadable operators in C++ on page 553 of Lippman, 5th ed. For our `MyString` class, we'll be overloading `+`, `=`, `<<`, `>>`, and `[]` (plus the ones you'll overload in lab 9).
 
-##### Friend Declarations #####
+You may find yourself running into the question of member versus nonmember implementation of your operators. Symmetric operators, operators that should allow implicit conversion of either operand, should be nonmember functions. Two examples of these are the `+` and `-` operators. Operators whose left-hand operand isn't of the class type shouldn't be members of the class, for example, the `<<` and `>>` operators of our `MyString` class. Operators that change the state of their object _should_ be members. The assignment (`=`), subscript (`[]`), call (`()`), and member access arrow (`->`) operators _must_ be members.
 
-If we want to have nonmember operators that access our non`public` data members, we need to declare them as **friend**s, as we do in `mystring.h`. 
+##### Friend Declarations
+
+If we want to have nonmember operators that access our non`public` data members, we need to declare them as **friend**s, as we do in `mystring.h`.
 
 ```cpp
 	// operator+
@@ -331,9 +348,10 @@ If we want to have nonmember operators that access our non`public` data members,
 	// get-from operator
 	friend istream& operator>>(istream& is, MyString& s);
 ```
+
 Remember this joke: "Only you and your friends can touch your private parts."
 
-##### Const Member Functions #####
+##### Const Member Functions
 
 Note that the `const` version of the subscript operator in `MyString` has `const` at the end of its prototype. What's that about? A **const member function** is a member function that promises not to modify the object on which the function is being called. As such, the `const` version of the `MyString` subscript operator promises to not modify the contents of the `MyString` that it's subscripting. Note that we can cast away the `const`ness of `*this` so that we can reuse our non`const` subscript operator:
 

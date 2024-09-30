@@ -1,5 +1,4 @@
-Makefiles
-=========
+# Makefiles
 
 Make is a UNIX utility that helps you compile programs by following a blueprint
 you specify.
@@ -13,9 +12,7 @@ In other words, you can execute all the preprocessing, compiling, and linking
 commands just by typing `make`. It's also a handy way to automate cumbersome
 tasks, like cleaning up build products.
 
-
-The `myadd` `Makefile` in 10 Steps
-----------------------------------
+## The `myadd` `Makefile` in 10 Steps
 
 In this repository, you'll find a directory named `myadd-demo`, which contains
 an interactive, step-by-step demo which shows you how to create a simple
@@ -33,7 +30,6 @@ entire 3157 course.
 
 You may also explore the [`practice`](practice) directory for some practice with
 `Makefile`s.
-
 
 ### Introduction
 
@@ -75,7 +71,6 @@ We use the `-g` and `-Wall` flags to include debugger symbols and enable all
 compiler warnings. The `-o` flag specifies that the resulting file shall be
 named as the argument after it, `main`.
 
-
 ### Step 0
 
 First, let's get the `Makefile` building just one thing. To do so, we write a
@@ -108,7 +103,6 @@ dependency.
 With this as the only thing our `Makefile`, if we run `make`, we'll see that
 `myadd.o` is built for us!
 
-
 ### Step 1
 
 Now, let's also write the rule for building `main.o`. Since `main.c` also
@@ -125,7 +119,6 @@ see only `main.o` building.
 
 We can still build targets that aren't the default (top) target. If we wanted
 to explicitly tell Make to build `myadd.o`, we can run `make myadd.o`.
-
 
 ### Step 2
 
@@ -149,7 +142,6 @@ than rebuilding the entire program from scratch is because for large software
 projects, rebuilding from scratch every time can be very inefficient. Instead,
 Make just rebuilds outdated targets as necessary.
 
-
 ### Step 3
 
 It's sometimes useful to clean up your project directory and get rid of all
@@ -168,9 +160,8 @@ for ourselves with the following rule:
 
     clean:
         rm -rf main *.o a.out
-        
-Now we can just clean up our project by running `make clean`. Isn't that neat?
 
+Now we can just clean up our project by running `make clean`. Isn't that neat?
 
 ### Step 4
 
@@ -200,7 +191,6 @@ and runs the `clean` target every time:
     clean:
         rm -rf main *.o a.out
 
-
 ### Interlude
 
 At this point, you now have the basis complete `Makefile`. You can jump to this
@@ -215,7 +205,6 @@ enough to do some of the thinking for you, and save you from doing busy work.
 In the following sections, we'll be explaining some of the fancier things you
 can do with your Makefile by leveraging variables, implicit rules, and other
 nifty features.
-
 
 ### Step 5
 
@@ -247,7 +236,7 @@ flag we're passing to the linking rule:
 
 `CC` stands for "C Compiler," and `LDFLAGS` means "linking flags." Now we can
 compile and link with the following:
-    
+
     $(CC) $(CFLAGS) -c main.c
     $(CC) $(LDFLAGS) main.o myadd.o -o main
 
@@ -257,7 +246,6 @@ by modifying the build variables we've defined at the top of our `Makefile`.
 It's not entirely obvious yet why we chose to substitute these particular parts
 of our build commands, or why we're using such particular variable names. Why
 this is important will become clear in step 8 when we use implicit rules.
-
 
 ### Step 6
 
@@ -286,7 +274,6 @@ the output executable name will change accordingly.
 
 You can try this out by playing around with your Makefile, then running `make`.
 
-
 ### Step 7
 
 We can use a couple more special variables to eliminate some of the filenames
@@ -308,7 +295,6 @@ mention anything about the target they're building or the dependencies they're
 using. For example, there's no mention of `main.o`, `main.c`, or `myadd.h` in
 `main.o`'s build commands. There's probably another opportunity to simplify our
 `Makefile` even more just around the corner...
-
 
 ### Step 8
 
@@ -335,7 +321,6 @@ targets and dependencies on their own:
 This will still build -- try running `make` to see for yourself. For larger
 software projects, implicit rules like these can go a long way.
 
-
 ### Step 9
 
 There's something else that the Make developers realized about the file naming
@@ -360,9 +345,7 @@ to find out the full extent of what this utility can do.
 
 [man-make]: https://www.gnu.org/software/make/manual/make.html
 
-
-Other Useful Make Variables
----------------------------
+## Other Useful Make Variables
 
 ### Compiling with Libraries
 
@@ -404,7 +387,6 @@ disappear when it's expanded. We can use the implicit build variables like this:
     LDFLAGS = -g -Lmy/libary/path
     LDLIBS = -lmylib
 
-
 ### Compiling C++
 
 When we compile C++ programs later on, we'll need a different compiler, though
@@ -436,16 +418,13 @@ The implicit rule for compiling C++ programs looks something like the following:
 You may want to revisit these notes once you begin writing C++ programs later in
 the semester.
 
-
-Common Make Practices
----------------------
+## Common Make Practices
 
 ### More `.PHONY` Targets
 
 Make can be used for a lot more than just building files. As with `make clean`,
 we can use it as a repository for commands that we would commonly use during
 the development process.
-
 
 #### `all`
 
@@ -462,7 +441,6 @@ The reason this works is because Make satisfies dependencies from left to right.
 So, running `make all` will first run `make clean`, then run `make main`.
 Since no build commands are specified underneath, Make will not do anything
 after satisfying `clean` and `main`.
-
 
 #### `TARGETS` and `default`
 
@@ -486,7 +464,6 @@ Make sure that `clean` is aware of all of the `TARGETS`, not just `main`:
     .PHONY: clean
     clean:
         rm -rf $(TARGETS) *.o a.out
-
 
 #### `test`
 

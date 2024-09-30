@@ -1,4 +1,4 @@
-## Structs (K&R 6) ##
+## Structs (K&R 6)
 
 Structs are kind of like Java's objects but for C. Fundamentally, they allow you
 to declare a collection of one or more variables grouped under a single type. A
@@ -100,7 +100,8 @@ struct {
     Node parent;
 } Node;
 ```
-### Union (optional) ###
+
+### Union (optional)
 
 A union is really nifty. It's like a structure, but, wait for it, all of its
 members are stored at the same location in memory. This means when you allocate
@@ -127,24 +128,25 @@ you need to store but want to be smart about the space you allocate. Just be
 careful that you don't store something as one type and then read it out as
 another. While possible, the behavior is compiler dependent.
 
+## Odds and Ends
 
-## Odds and Ends ##
-### String Operations in C Library ###
+### String Operations in C Library
+
 Jae has some functions listed in the notes from the Standard C Library for
 string operations. I'm not going to explain them all here, but I will point out
 some nasty little things to be aware of.
 
-  - `strlen` runs in O(n) because you can't know the length of a string without
-    traversing it to find the null character.
-  - `strcpy` and `strncpy` require that there is enough space in your
-    destination memory location for the source string. Also watch out when using
-    `strncpy` that all your strings are null terminated.
-  - `strcat` runs in O(n) too. So if you're running lots of strcats, watch out
-    because you could end up with tons of passes over a single string.
-    Exponential even.
-  - `memcpy` is great for cleaning things up. Just sayin'.
+- `strlen` runs in O(n) because you can't know the length of a string without
+  traversing it to find the null character.
+- `strcpy` and `strncpy` require that there is enough space in your
+  destination memory location for the source string. Also watch out when using
+  `strncpy` that all your strings are null terminated.
+- `strcat` runs in O(n) too. So if you're running lots of strcats, watch out
+  because you could end up with tons of passes over a single string.
+  Exponential even.
+- `memcpy` is great for cleaning things up. Just sayin'.
 
-### Const ###
+### Const
 
 `const` is a keyword for types in C that prevents them from being modified. It's
 important to understand that this means once the variable is declared, the
@@ -165,7 +167,8 @@ const_ptr = &y; //invalid: value of pointer, is constant
 const char *const why = "You'll never change anything about me. Ever";
 ```
 
-### Struct padding ###
+### Struct padding
+
 For performance and for compatibility between different types of machines, C
 compilers will sometimes add padding to structs. For example:
 
